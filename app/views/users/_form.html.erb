@@ -12,26 +12,54 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name %>
+    <%= form.label :name, '新しい名前' %><br>
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :age %>
-    <%= form.number_field :age %>
-  </div>
+  <style>
+  .quest {
+    font-style: italic;
+    margin-top: 15px;
+  }
+  </style>
 
-  <div class="field">
-    <%= form.label :village_id %>
-    <%= form.number_field :village_id %>
-  </div>
+  <h3>神さま「また死ぬんだ？転生させてあげる前に、3つの質問をするね。」</h3>
 
-  <div class="field">
-    <%= form.label :job_id %>
-    <%= form.number_field :job_id %>
-  </div>
+  <div class="quest">Q. この中で好きだったゲームは？</div>
+  <label><input name="user[age]" type="radio" value="5" class="q1"> ピンボール</label><br>
+  <label><input name="user[age]" type="radio" value="3" class="q1"> パズドラ</label><br>
+  <label><input name="user[age]" type="radio" value="6" class="q1"> 野球</label><br>
+  <label><input name="user[age]" type="radio" value="2" class="q1"> Splatoon</label><br>
+  <label><input name="user[age]" type="radio" value="4" class="q1"> マインクラフト</label><br>
+  <label><input name="user[age]" type="radio" value="1" class="q1"> 全部知らない</label><br>
+
+  <div class="quest">Q. 自分は幸せだったと思う？</div>
+  <label><input name="user[village_id]" type="radio" value="3"> すごく幸せだった</label><br>
+  <label><input name="user[village_id]" type="radio" value="1"> それなりに幸せだった</label><br>
+  <label><input name="user[village_id]" type="radio" value="2"> 幸せじゃなかった</label><br>
+
+  <div class="quest">Q. 死ぬ前にやりたかったことは？</div>
+  <label><input name="user[job_id]" type="radio" value="1"> 誰にもできないことをする</label><br>
+  <label><input name="user[job_id]" type="radio" value="2"> 好きなものをずっと大切にする</label><br>
+  <label><input name="user[job_id]" type="radio" value="3"> 海を見る</label><br>
+  <label><input name="user[job_id]" type="radio" value="4"> 大事な人を守る</label><br>
+  <label><input name="user[job_id]" type="radio" value="5"> 動物と暮らす</label><br>
+  <label><input name="user[job_id]" type="radio" value="6"> 人に尊敬される</label><br>
+  <label><input name="user[job_id]" type="radio" value="7"> ずっと使われるものを作る</label><br>
+  <label><input name="user[job_id]" type="radio" value="8"> 立派な研究者になる</label><br>
+  <label><input name="user[job_id]" type="radio" value="9"> 武器の使い手になる</label><br>
+  <label><input name="user[job_id]" type="radio" value="10"> 1つのことに熱中する</label><br>
+  <label><input name="user[job_id]" type="radio" value="11"> 酒に溺れる</label><br>
+  <label><input name="user[job_id]" type="radio" value="12"> ふかふかの布団で寝る</label><br>
+
+  <script>
+    const quests = document.querySelectorAll('.q1');
+    quests.forEach(element => {
+      element.value = (element.value - 1) * 12 + Math.floor(Math.random() * 12)
+    });
+  </script>
 
   <div class="actions">
-    <%= form.submit %>
+    <button type="submit" style="margin-top: 15px">転生</button>
   </div>
 <% end %>

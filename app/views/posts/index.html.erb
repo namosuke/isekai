@@ -1,23 +1,66 @@
-<p id="notice"><%= notice %></p>
+<style>
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+div {
+  box-sizing: border-box;
+}
+textarea {
+  width: 100%;
+  height: 4em;
+}
+.menu {
+  height: 100%;
+  border-right: 1px solid gray;
+  width: 30%;
+  padding: 15px;
+}
+.contents {
+  padding: 15px;
+  width: 70%;
+}
+</style>
 
-<% if params[:type] == 'village' then %>
-  <h1><%= Village.find(params[:id]).name %>村の仲間たち</h1>
-<% elsif params[:type] == 'job' %>
-  <h1><%= Job.find(params[:id]).name %>の仲間たち</h1>
-<% end %>
-
-<% @posts.each do |post| %>
-  <div>
-    <div><b><%= post.user.name %></b> (<%= post.user.age %>) - <%= post.village.name %>村 <%= post.job.name %></div>
-    <div><%=safe_join(post.content.split("\n"),tag(:br))%></div>
-    <% if post.user.id === current_user.id then %>
-      <div><%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' } %></div>
-    <% end %>
-    <hr>
+<div class="menu">
+  <h2>神さま！異世界転生先がどうしてＳＮＳなんですか！？</h2>
+  <div><b><%= current_user.name %></b> (<%= current_user.age %>)</div>
+  <div><%= current_user.village.name %>村 <%= current_user.job.name %></div>
+  <div><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %></div>
+  <hr>
+  <div><%= link_to '生まれ変わる', rebirth_path %></div>
+  <% if params[:type] == 'village' then %>
+    <div><%= link_to 'ＴＬ切り替え', posts_path + "?id=#{current_user.job_id}&type=job" %></div>
+  <% elsif params[:type] == 'job' %>
+    <div><%= link_to 'ＴＬ切り替え', posts_path + "?id=#{current_user.village_id}&type=village" %></div>
+  <% end %>
+  <div style="padding-top: 15px">
+    <%= render 'form', post: @post %>
   </div>
-<% end %>
+</div>
 
-<br>
+<div class="contents">
+  <p id="notice"><%= notice %></p>
 
-<%= render 'form', post: @post %>
-<%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+  <% if params[:type] == 'village' then %>
+    <h1><%= Village.find(params[:id]).name %>村の仲間たち</h1>
+  <% elsif params[:type] == 'job' %>
+    <h1><%= Job.find(params[:id]).name %>の仲間たち</h1>
+  <% end %>
+
+  <% @posts.each do |post| %>
+    <div>
+      <div><b><%= post.user.name %></b> (<%= post.user.age %>) - <%= post.village.name %>村 <%= post.job.name %></div>
+      <div><%=safe_join(post.content.split("\n"),tag(:br))%></div>
+      <% if post.user.id === current_user.id then %>
+        <div><%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+      <% end %>
+      <hr>
+    </div>
+  <% end %>
+</div>

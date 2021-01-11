@@ -5,9 +5,9 @@ class PostsController < ApplicationController
   # GET /posts.json
   def index
     if params[:type] == 'village' then
-      @posts = Post.where(village_id: params[:id])
+      @posts = Post.where(village_id: params[:id]).order(id: 'DESC')
     elsif params[:type] == 'job'
-      @posts = Post.where(job_id: params[:id])
+      @posts = Post.where(job_id: params[:id]).order(id: 'DESC')
     end
     @post = Post.new
   end
@@ -33,7 +33,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to root_path, notice: 'Post was successfully created.' }
+        format.html { redirect_to root_path }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -61,7 +61,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
+      format.html { redirect_to posts_url, notice: '神さま「あなたの過去が消えたよ！おめでとう！」' }
       format.json { head :no_content }
     end
   end
