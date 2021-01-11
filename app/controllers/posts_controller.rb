@@ -4,7 +4,12 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    if params[:type] == 'village' then
+      @posts = Post.where(village_id: params[:id])
+    elsif params[:type] == 'job'
+      @posts = Post.where(job_id: params[:id])
+    end
+    @post = Post.new
   end
 
   # GET /posts/1
@@ -28,7 +33,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
+        format.html { redirect_to root_path, notice: 'Post was successfully created.' }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -39,17 +44,17 @@ class PostsController < ApplicationController
 
   # PATCH/PUT /posts/1
   # PATCH/PUT /posts/1.json
-  def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  #def update
+  #  respond_to do |format|
+  #    if @post.update(post_params)
+  #      format.html { redirect_to @post, notice: 'Post was successfully updated.' }
+  #      format.json { render :show, status: :ok, location: @post }
+  #    else
+  #      format.html { render :edit }
+  #      format.json { render json: @post.errors, status: :unprocessable_entity }
+  #    end
+  #  end
+  #end
 
   # DELETE /posts/1
   # DELETE /posts/1.json
@@ -69,6 +74,10 @@ class PostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def post_params
-      params.require(:post).permit(:content, :user_id, :village_id, :job_id)
+      output = params.require(:post).permit(:content)
+      output["user_id"] = current_user.id
+      output["village_id"] = current_user.village_id
+      output["job_id"] = current_user.job_id
+      return output
     end
 end

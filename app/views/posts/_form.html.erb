@@ -13,25 +13,10 @@
 
   <div class="field">
     <%= form.label :content %>
-    <%= form.text_field :content %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.number_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :village_id %>
-    <%= form.number_field :village_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :job_id %>
-    <%= form.number_field :job_id %>
+    <%= form.text_area :content %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit('発言') %>
   </div>
 <% end %>
