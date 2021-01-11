@@ -8,6 +8,12 @@ body {
   padding: 0;
   margin: 0;
 }
+@media screen and (max-width: 600px){
+  body {
+    height: auto;
+    flex-direction: column;
+  }
+}
 div {
   box-sizing: border-box;
 }
@@ -21,9 +27,24 @@ textarea {
   width: 30%;
   padding: 15px;
 }
+@media screen and (max-width: 600px){
+  .menu {
+    width: 100%;
+  }
+}
+.contents-wrapper {
+  width: 70%;
+  height: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+@media screen and (max-width: 600px){
+  .contents-wrapper {
+    width: 100%;
+  }
+}
 .contents {
   padding: 15px;
-  width: 70%;
 }
 </style>
 
@@ -44,23 +65,25 @@ textarea {
   </div>
 </div>
 
-<div class="contents">
-  <p id="notice"><%= notice %></p>
+<div class="contents-wrapper">
+  <div class="contents">
+    <p id="notice"><%= notice %></p>
 
-  <% if params[:type] == 'village' then %>
-    <h1><%= Village.find(params[:id]).name %>村の仲間たち</h1>
-  <% elsif params[:type] == 'job' %>
-    <h1><%= Job.find(params[:id]).name %>の仲間たち</h1>
-  <% end %>
+    <% if params[:type] == 'village' then %>
+      <h1><%= Village.find(params[:id]).name %>村の仲間たち</h1>
+    <% elsif params[:type] == 'job' %>
+      <h1><%= Job.find(params[:id]).name %>の仲間たち</h1>
+    <% end %>
 
-  <% @posts.each do |post| %>
-    <div>
-      <div><b><%= post.user.name %></b> (<%= post.user.age %>) - <%= post.village.name %>村 <%= post.job.name %></div>
-      <div><%=safe_join(post.content.split("\n"),tag(:br))%></div>
-      <% if post.user.id === current_user.id then %>
-        <div><%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' } %></div>
-      <% end %>
-      <hr>
-    </div>
-  <% end %>
+    <% @posts.each do |post| %>
+      <div>
+        <div><b><%= post.user.name %></b> (<%= post.user.age %>) - <%= post.village.name %>村 <%= post.job.name %></div>
+        <div><%=safe_join(post.content.split("\n"),tag(:br))%></div>
+        <% if post.user.id === current_user.id then %>
+          <div><%= link_to '削除', post, method: :delete, data: { confirm: 'Are you sure?' } %></div>
+        <% end %>
+        <hr>
+      </div>
+    <% end %>
+  </div>
 </div>
