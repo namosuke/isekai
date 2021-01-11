@@ -29,10 +29,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'この世界へようこそ！' }
+        format.html { redirect_to root_path, notice: 'この世界へようこそ！' }
         format.json { render :show, status: :created, location: @user }
       else
-        format.html { render :new }
+        format.html { edirect_to root_path }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

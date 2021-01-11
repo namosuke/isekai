@@ -33,7 +33,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.html { redirect_to root_path }
+        format.html { redirect_to request.referer }
         format.json { render :show, status: :created, location: @post }
       else
         format.html { render :new }
@@ -61,7 +61,7 @@ class PostsController < ApplicationController
   def destroy
     @post.destroy
     respond_to do |format|
-      format.html { redirect_to posts_url, notice: '神さま「あなたの過去が消えたよ！おめでとう！」' }
+      format.html { redirect_to request.referer, notice: '神さま「あなたの過去が消えたよ！おめでとう！」' }
       format.json { head :no_content }
     end
   end
